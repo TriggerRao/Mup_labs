@@ -1,0 +1,80 @@
+.model tiny
+.data
+fname1	db	'ID.TXT'
+handle1	dw ?
+fname2	db 'NAME.TXT'
+handle2	dw ?
+fname3	db	'SPLICE.TXT'
+handle3	dw	?
+
+part1		db 5 dup('$')
+len1        db 5
+part2		db 8 dup('$')
+len2        db 8
+
+.code
+.startup
+
+    MOV AH, 3Dh
+    MOV AL, 00h
+    LEA DX, fname1
+    INT 21h
+    MOV handle1, AX
+
+    MOV AH, 3Fh
+    MOV BX, handle1
+    MOV CH, 00h
+    MOV CL, len1
+    LEA DX, part1
+    INT 21h
+
+    MOV AH, 3Eh
+    INT 21h
+
+    MOV AH, 3Dh
+    MOV AL, 00h
+    LEA DX, fname2
+    INT 21h
+    MOV handle2, AX
+
+    MOV AH, 3Fh
+    MOV BX, handle2
+    MOV CH, 00h
+    MOV CL, len2
+    LEA DX, part2
+    INT 21h
+
+    MOV AH, 3Eh
+    INT 21h
+
+    MOV AH, 3Ch
+    LEA DX, fname3
+    MOV CL, 1h
+    INT 21h
+    MOV handle3, AX
+
+    MOV AH, 3Dh
+    MOV AL, 1h
+    LEA DX, fname3
+    INT 21h
+    MOV handle3, AX
+
+    MOV AH, 40h
+    MOV BX, handle3
+    MOV CL, len1
+    MOV CH, 00h 
+    LEA DX, part1
+    INT 21h
+
+    MOV AH, 40h
+    MOV BX, handle3
+    MOV CL, len2
+    MOV CH, 00h 
+    LEA DX, part2
+    INT 21h
+
+    MOV AH, 3Eh
+    INT 21h
+
+.exit
+end
