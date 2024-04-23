@@ -1,6 +1,6 @@
 .model tiny
 .data
-dat1 db 'wasitcatisaw'
+dat1 db 'wasitaatisaw'
 dat1length db 0ch
 res dw 00h
 .code
@@ -9,9 +9,12 @@ res dw 00h
     lea si, dat1
     lea di, dat1
     mov cl, dat1length
-    add di, cl
+    mov ch, 00h
+    add di, cx
     dec di
-    loop1: cmp [si], [di]
+    loop1: mov al, [si] 
+           mov bl, [di]       
+           cmp al, bl
            jnz exit
            inc si
            dec di
@@ -21,7 +24,7 @@ res dw 00h
            
     lea si, res
     mov al, 01h
-    mov [si], 01h
+    mov [si], al
     jmp exit
 
 exit: .exit
